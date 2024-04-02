@@ -263,15 +263,15 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     ```
 ### Finally, we can compose a `receipt` POST request
 
-Vendor Entity ID = 2278
-Location Id = 1
-Currency Id = 3
-Storage Location Id = 198
-Storage Unit Id = 170
-Item Id = 8049
-ReceiveUOMId = 79
+- Vendor Entity ID = 2278
+- Location Id = 1
+- Currency Id = 3
+- Storage Location Id = 198
+- Storage Unit Id = 170
+- Item Id = 8049
+- ReceiveUOMId = 79
 
-We can provide an arbitrary `lotNo` to the lot object in the `lots` array. It doesn't necessarily need to be existing. The system will auto-create the lot number if it doesn't exists.
+We can provide an arbitrary `lotNo` to the lot object in the `lots` array. It doesn't necessarily need to be existing. The system will auto-create the lot number if it doesn't exists. Note that the `quantity` of the lot must be less than or equal to the `receiveQty` of the item.
 
 In this example, our `receipt` POST request created a new IR: `IR-2785`.
 
