@@ -3,7 +3,7 @@
 ## Pre-conditions:
 
 We will do these pre-conditions in the i21 app.
-1. Create an inventory item and set the Lot Tracking to any of the following list below. Note that an item is lotted when the "Lot Tracking" field is not set to `No`.
+1. An item is lotted when the `Lot Tracking` field is not set to `No`. We will create an inventory item and set the `Lot Tracking` field to any of the following below.
     - `Yes - Serial Number`
     - `Yes - Manual`
     - `Yes - Manual/Serial Number`
@@ -208,8 +208,141 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
         }
     ```
 
-3. Get the `storageLocationId`.
-The JSON response of the `companylocation` endpoint includes an array of **storageLocations**. We can use that list to get the ID of the storage location. In this example, we will select `G2` as the storage location. Based on the JSON response above, the ID of the storage location is `198`.
+3. **Storage Location**. We need to get the `storageLocationId`. Storage locations and storage units are required when creating a receipt for lotted items.
+
+    The JSON response of the `companylocation` endpoint includes an array of **storageLocations**. We can use that list to get the ID of the storage location. In this example, we will select `G2` as the storage location. Based on the JSON response above, the ID of the storage location is `198`. Alternatively, we can call a separate endpoint, `receipt/storagelocation?locationId=1` endpoint with a `locationId` query parameter to get the ID of the storage location.
+
+4. **Storage Unit**. We can get the storage unit using the `receipt/storageunit?storageLocationId=198` endpoint by supplying the `storageLocationId` query parameter. In this example, we will retrieve the `GG1` storage unit of the `G2` storage location. We can add a filtering to get the specific storage unit. The `storageUnitId` we get is `170`.
+
+    Request:
+    ```http
+    GET {{url}}/receipt/storageunit?storageLocationId=198&filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'name', 'data': 'GG1'}]}
+    Content-Type: application/json
+    Authorization: Bearer {{access_token}}
+    ```
+    Response:
+    ```json
+    {
+        "data": [
+            {
+            "storageUnitId": 170,
+            "name": "GG1",
+            "description": "GG1",
+            "storageUnitType": "Bin",
+            "storageLocationName": "G2",
+            "storageLocationId": 198,
+            "locationName": "0000 - Home Office",
+            "locationNumber": "009",
+            "locationId": 1,
+            "batchSize": 0.000000,
+            "dateLastUpdated": "2023-08-29T02:35:13.487",
+            "effectiveDepth": 60.000000,
+            "isActive": false,
+            "isAllowConsume": false,
+            "isAllowMultipleItem": false,
+            "isAllowMultipleLot": false,
+            "isCycleCounted": false,
+            "isDefaultWHStagingUnit": false,
+            "isMergeOnMove": false,
+            "minBatchSize": 0.000000,
+            "packFactor": 0.000000,
+            "residualUnit": 75.000000,
+            "unitGroup": "",
+            "unitPerFoot": 3500.000000
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalPages": 1,
+        "totalValueInPage": null,
+        "totalValue": null,
+        "totalValueFieldName": null,
+        "disablePaging": null
+    }
+    ```
+
+5. **Item**. Next, we need to get the `itemId` of the lotted item. We will need to use the `item` endpoint and add a filter to narrow down the results. In this case, we will search for the `Arabica` item using the `itemNo` field. We will also need to provide a `locationId` query parameter to filter the items that belongs to the company location that we've selected in the previous steps.
+
+    Request:
+    ```http
+    GET {{url}}/item?locationId=1&filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'itemNo', 'data': 'Arabica'}]}
+    Content-Type: application/json
+    Authorization: Bearer {{access_token}}
+    ```
+    ```json
+    {
+        "data": [
+            {
+                "brand": null,
+                "bundleType": null,
+                "category": "Coffee",
+                "commodity": null,
+                "costMethod": "",
+                "costType": "",
+                "dateLastUpdated": "2024-04-02T06:21:53.18",
+                "description": "Arabica",
+                "inventoryTracking": "Lot Level",
+                "isStockedItem": false,
+                "itemId": 8049,
+                "itemNo": "Arabica",
+                "itemType": "Inventory",
+                "locations": [
+                ],
+                "lotTracking": "Yes - Manual/Serial Number",
+                "lotWeightsRequired": false,
+                "manufacturer": null,
+                "modelNo": "",
+                "pricings": [
+                    {
+                    "amountPercentage": 0.000000,
+                    "dateLastUpdated": "2024-04-02T06:21:57.223",
+                    "location": "0000 - Home Office",
+                    "locationId": 1,
+                    "pricingMethod": "None",
+                    "retailPrice": 0.000000,
+                    "standardCost": 0.000000
+                    },
+                    {
+                    "amountPercentage": 0.000000,
+                    "dateLastUpdated": "2024-04-02T06:21:57.227",
+                    "location": "Minneapolis ",
+                    "locationId": 2,
+                    "pricingMethod": "None",
+                    "retailPrice": 0.000000,
+                    "standardCost": 0.000000
+                    }
+                ],
+                "status": "Active",
+                "uOMs": [
+                    {
+                    "allowPurchase": true,
+                    "allowSale": true,
+                    "dateLastUpdated": "2024-04-02T06:21:51.413",
+                    "itemId": 8049,
+                    "itemUomId": 11819,
+                    "maxQty": 0.000000,
+                    "shortUpc": null,
+                    "stockUnit": true,
+                    "unit": "BAG",
+                    "unitMeasureId": 79,
+                    "unitQty": 1.000000,
+                    "upc": null
+                    }
+                ],
+                "useWeighScales": false
+                }
+            ],
+            "count": 1,
+            "currentPage": 1,
+            "pageSize": 50,
+            "totalPages": 1,
+            "totalValueInPage": null,
+            "totalValue": null,
+            "totalValueFieldName": null,
+            "disablePaging": null
+        }
+    ```
 
 Here's an example of the completed POST request:
 
