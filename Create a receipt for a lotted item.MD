@@ -22,7 +22,9 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     Request:
 
     ```http
-    GET {{url}}/vendor?filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'id', 'data': 'ABC'}]}
+    GET {{url}}/vendor
+        ?filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'id', 'data': 'ABC'}]}
+        &fields=entityId,id,entity
     Content-Type: application/json
     Authorization: Bearer {{access_token}}
     ```
@@ -31,47 +33,13 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     {
         "data": [
             {
-            "accountType": "Company",
-            "active": true,
-            "contact": "4343",
-            "contactInfo": {
-                "address1": "",
-                "address2": "",
-                "city": "Louisville",
-                "country": "United States",
-                "email": "test@irely.com",
-                "fax": "",
-                "firstName": "4343",
-                "lastName": "4343",
-                "mobile": "",
-                "phone": "(260) 461-3457 x00000",
-                "postalCode": "46774",
-                "stateProv": "Kentucky",
-                "website": ""
-            },
-            "dateCreated": null,
-            "dateLastUpdated": "2022-12-12T17:46:39.477",
-            "dateModified": null,
-            "description": " Swift & Company",
-            "entity": {
                 "entityId": 2278,
-                "entityName": " Swift & Company",
-                "entityNo": "ABC"
-            },
-            "entityId": 2278,
-            "id": "ABC",
-            "isSupplier": true,
-            "isTransportTerminal": true,
-            "locations": [
-            ],
-            "originationDate": "2021-03-28T18:09:25.797",
-            "shipFromLocationId": 1169,
-            "shipFromLocationName": "Main",
-            "shipVia": "Common Carrier Trucking Inc",
-            "shipViaId": 106,
-            "storageLocations": [],
-            "useShipperWeight": false,
-            "vendorType": "Vendor"
+                "id": "ABC",
+                "entity": {
+                    "entityId": 2278,
+                    "entityNo": "ABC",
+                    "entityName": " Swift & Company"
+                }
             }
         ],
         "count": 1,
@@ -90,7 +58,9 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
 
     Request:
     ```http
-    GET {{url}}/companylocation?filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'locationName', 'data': '0000 - Home Office'}]}
+    GET {{url}}/companylocation
+    ?filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'locationName', 'data': '0000 - Home Office'}]}
+    &fields=locationId,locationName,locationNumber,storageLocations
     Content-Type: application/json
     Authorization: Bearer {{access_token}}
     ```
@@ -99,60 +69,45 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     {
         "data": [
             {
-            "locationId": 1,
-            "locationName": "0000 - Home Office",
-            "locationNumber": "009",
-            "locationType": "Office",
-            "active": false,
-            "address": "344 New Albany R",
-            "city": "Moorestown",
-            "country": "United States",
-            "dateCreated": "2019-05-06T15:18:47.15",
-            "dateLastUpdated": "2023-08-29T02:28:53.837",
-            "email": "",
-            "fax": "",
-            "latitude": 39.965957,
-            "longitude": -74.971669,
-            "phone": "1.888.561.5017",
-            "stateProvince": "NJ",
-            "storageLocations": [
-                {
-                "storageLocationId": 153,
-                "name": "Gas Tank",
-                "description": "Link to TM Site",
                 "locationId": 1,
-                "address": "",
-                "city": "",
-                "classification": "Inventory",
-                "country": null,
-                "countryId": null,
-                "latitude": 0.000000,
-                "longitude": 0.000000,
-                "state": "",
-                "vendor": null,
-                "vendorId": null,
-                "zipCode": ""
-                },
-                {
-                "storageLocationId": 198,
-                "name": "G2",
-                "description": "iSite1",
-                "locationId": 1,
-                "address": "",
-                "city": "",
-                "classification": "Inventory",
-                "country": null,
-                "countryId": null,
-                "latitude": 0.000000,
-                "longitude": 0.000000,
-                "state": "",
-                "vendor": null,
-                "vendorId": null,
-                "zipCode": ""
-                }
-            ],
-            "website": "",
-            "zipPostalCode": "08057"
+                "locationName": "0000 - Home Office",
+                "locationNumber": "009",
+                "storageLocations": [
+                    {
+                        "vendorId": null,
+                        "vendor": null,
+                        "classification": "Inventory",
+                        "address": "",
+                        "city": "",
+                        "state": "",
+                        "zipCode": "",
+                        "countryId": null,
+                        "country": null,
+                        "latitude": 0.0,
+                        "longitude": 0.0,
+                        "storageLocationId": 153,
+                        "name": "Gas Tank",
+                        "description": "Link to TM Site",
+                        "locationId": 1
+                    },
+                    {
+                        "vendorId": null,
+                        "vendor": null,
+                        "classification": "Inventory",
+                        "address": "",
+                        "city": "",
+                        "state": "",
+                        "zipCode": "",
+                        "countryId": null,
+                        "country": null,
+                        "latitude": 0.0,
+                        "longitude": 0.0,
+                        "storageLocationId": 198,
+                        "name": "G2",
+                        "description": "iSite1",
+                        "locationId": 1
+                    }
+                ]
             }
         ],
         "count": 1,
@@ -173,7 +128,9 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     Request:
 
     ```http
-    GET {{url}}/currency?filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'id', 'data': 'USD'}]}
+    GET {{url}}/currency
+	?filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'id', 'data': 'USD'}]}
+	&fields=internalId, id as code,description
     Content-Type: application/json
     Authorization: Bearer {{access_token}}
     ```
@@ -183,72 +140,9 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     {
         "data": [
             {
-            "id": "USD",
-            "description": "US Dollar",
-            "cent": null,
-            "checkDescription": null,
-            "dailyRate": 1.000000,
-            "format": "",
-            "internalId": 3,
-            "isPegged": false,
-            "isSubCurrency": false,
-            "maxRate": 1.075120,
-            "minRate": 1.075120,
-            "symbol": null
-            }
-        ],
-        "count": 1,
-        "currentPage": 1,
-        "pageSize": 50,
-        "totalPages": 1,
-        "totalValueInPage": null,
-        "totalValue": null,
-        "totalValueFieldName": null,
-        "disablePaging": null
-        }
-    ```
-
-3. **Storage Location**. We need to get the `storageLocationId`. Storage locations and storage units are required when creating a receipt for lotted items.
-
-    The JSON response of the `companylocation` endpoint includes an array of **storageLocations**. We can use that list to get the ID of the storage location. In this example, we will select `G2` as the storage location. Based on the JSON response above, the ID of the storage location is `198`. Alternatively, we can call a separate endpoint, `receipt/storagelocation?locationId=1` endpoint with a `locationId` query parameter to get the ID of the storage location.
-
-4. **Storage Unit**. We can get the storage unit using the `receipt/storageunit?storageLocationId=198` endpoint by supplying the `storageLocationId` query parameter. In this example, we will retrieve the `GG1` storage unit of the `G2` storage location. We can add a filtering to get the specific storage unit. The `storageUnitId` we get is `170`.
-
-    Request:
-    ```http
-    GET {{url}}/receipt/storageunit?storageLocationId=198&filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'name', 'data': 'GG1'}]}
-    Content-Type: application/json
-    Authorization: Bearer {{access_token}}
-    ```
-    Response:
-    ```json
-    {
-        "data": [
-            {
-            "storageUnitId": 170,
-            "name": "GG1",
-            "description": "GG1",
-            "storageUnitType": "Bin",
-            "storageLocationName": "G2",
-            "storageLocationId": 198,
-            "locationName": "0000 - Home Office",
-            "locationNumber": "009",
-            "locationId": 1,
-            "batchSize": 0.000000,
-            "dateLastUpdated": "2023-08-29T02:35:13.487",
-            "effectiveDepth": 60.000000,
-            "isActive": false,
-            "isAllowConsume": false,
-            "isAllowMultipleItem": false,
-            "isAllowMultipleLot": false,
-            "isCycleCounted": false,
-            "isDefaultWHStagingUnit": false,
-            "isMergeOnMove": false,
-            "minBatchSize": 0.000000,
-            "packFactor": 0.000000,
-            "residualUnit": 75.000000,
-            "unitGroup": "",
-            "unitPerFoot": 3500.000000
+                "internalId": 3,
+                "code": "USD",
+                "description": "US Dollar"
             }
         ],
         "count": 1,
@@ -262,11 +156,51 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     }
     ```
 
-5. **Item**. Next, we need to get the `itemId` of the lotted item. We will need to use the `item` endpoint and add a filter to narrow down the results. In this case, we will search for the `Arabica` item using the `itemNo` field. We will also need to provide a `locationId` query parameter to filter the items that belongs to the company location that we've selected in the previous steps.
+3. **Storage Location**. We need to get the `storageLocationId`. Storage locations and storage units are required when creating a receipt for lotted items.
+
+    The JSON response of the `companylocation` endpoint includes an array of **storageLocations**. We can use that list to get the ID of the storage location. In this example, we will select `G2` as the storage location. Based on the JSON response above, the ID of the storage location is `198`. Alternatively, we can call a separate endpoint, `receipt/storagelocation?locationId=1` endpoint with a `locationId` query parameter to get the ID of the storage location.
+
+4. **Storage Unit**. We can get the storage unit using the `receipt/storageunit?storageLocationId=198` endpoint by supplying the `storageLocationId` query parameter. In this example, we will retrieve the `GG1` storage unit of the `G2` storage location. We can add a filtering to get the specific storage unit. The `storageUnitId` we get is `170`.
 
     Request:
     ```http
-    GET {{url}}/item?locationId=1&filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'itemNo', 'data': 'Arabica'}]}
+    GET {{url}}/receipt/storageunit
+	?storageLocationId=198
+	&filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'name', 'data': 'GG1'}]}
+	&fields=storageUnitId,name,description,locationName
+    Content-Type: application/json
+    Authorization: Bearer {{access_token}}
+    ```
+    Response:
+    ```json
+    {
+        "data": [
+            {
+                "storageUnitId": 170,
+                "name": "GG1",
+                "description": "GG1",
+                "locationName": "0000 - Home Office"
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalPages": 1,
+        "totalValueInPage": null,
+        "totalValue": null,
+        "totalValueFieldName": null,
+        "disablePaging": null
+    }
+    ```
+
+5. **Item**. Next, we need to get the `itemId` of the lotted item. We will need to use the `item` endpoint and add a filter to narrow down the results. In this example, we will provide a `locationId` query parameter to filter the items that belongs to the company location, which we've selected in the previous steps. We can also add a filter rule to search for the `Arabica` item using the `itemNo` field. Lastly, we can show only the lotted item by adding a filter rule for the `lotTracking` field.
+
+    Request:
+    ```http
+    GET {{url}}/item
+	?locationId=1
+	&filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'itemNo', 'data': 'Arabica'}, { 'op': 'ne', 'field': 'lotTracking', 'data': 'No' }]}
+	&fields=itemId,itemNo,description,lotTracking
     Content-Type: application/json
     Authorization: Bearer {{access_token}}
     ```
@@ -274,78 +208,74 @@ Uncheck the `Lot Weights Required` checkbox. This is used only for items that re
     {
         "data": [
             {
-                "brand": null,
-                "bundleType": null,
-                "category": "Coffee",
-                "commodity": null,
-                "costMethod": "",
-                "costType": "",
-                "dateLastUpdated": "2024-04-02T06:21:53.18",
-                "description": "Arabica",
-                "inventoryTracking": "Lot Level",
-                "isStockedItem": false,
                 "itemId": 8049,
                 "itemNo": "Arabica",
-                "itemType": "Inventory",
-                "locations": [
-                ],
-                "lotTracking": "Yes - Manual/Serial Number",
-                "lotWeightsRequired": false,
-                "manufacturer": null,
-                "modelNo": "",
-                "pricings": [
-                    {
-                    "amountPercentage": 0.000000,
-                    "dateLastUpdated": "2024-04-02T06:21:57.223",
-                    "location": "0000 - Home Office",
-                    "locationId": 1,
-                    "pricingMethod": "None",
-                    "retailPrice": 0.000000,
-                    "standardCost": 0.000000
-                    },
-                    {
-                    "amountPercentage": 0.000000,
-                    "dateLastUpdated": "2024-04-02T06:21:57.227",
-                    "location": "Minneapolis ",
-                    "locationId": 2,
-                    "pricingMethod": "None",
-                    "retailPrice": 0.000000,
-                    "standardCost": 0.000000
-                    }
-                ],
-                "status": "Active",
-                "uOMs": [
-                    {
-                    "allowPurchase": true,
-                    "allowSale": true,
-                    "dateLastUpdated": "2024-04-02T06:21:51.413",
-                    "itemId": 8049,
-                    "itemUomId": 11819,
-                    "maxQty": 0.000000,
-                    "shortUpc": null,
-                    "stockUnit": true,
-                    "unit": "BAG",
-                    "unitMeasureId": 79,
-                    "unitQty": 1.000000,
-                    "upc": null
-                    }
-                ],
-                "useWeighScales": false
-                }
-            ],
-            "count": 1,
-            "currentPage": 1,
-            "pageSize": 50,
-            "totalPages": 1,
-            "totalValueInPage": null,
-            "totalValue": null,
-            "totalValueFieldName": null,
-            "disablePaging": null
-        }
+                "description": "Arabica",
+                "lotTracking": "Yes - Manual/Serial Number"
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalPages": 1,
+        "totalValueInPage": null,
+        "totalValue": null,
+        "totalValueFieldName": null,
+        "disablePaging": null
+    }
     ```
 
-Here's an example of the completed POST request:
+6. **Receive UOM**. To get the `receiveUOMId`, we can issue a request to the `uom` endpoint by filtering the UOM code to get the specific UOM that we need. In this example, we will use the `Bag` unit, the `uomId` is `79`.
 
+    If we need to get the list of valid UOMs of an item, we can use the `item` endpoint and inspect the `uOMs` array.
+
+    Request:
+    ```http
+    GET {{url}}/uom?filter={'groupOp': 'And', 'rules': [{'op': 'eq', 'field': 'id', 'data': 'Bag'}]}
+    Content-Type: application/json
+    Authorization: Bearer {{access_token}}
+    ```
+    Response:
+    ```json
+    {
+        "data": [
+            {
+                "uomId": 79,
+                "id": "BAG",
+                "symbol": "BAG",
+                "unitType": "Quantity",
+                "dateCreated": null,
+                "dateLastUpdated": null,
+                "dateModified": null,
+                "decimalPlaces": 6,
+                "internalId": 79
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 50,
+        "totalPages": 1,
+        "totalValueInPage": null,
+        "totalValue": null,
+        "totalValueFieldName": null,
+        "disablePaging": null
+    }
+    ```
+### Finally, we can compose a `receipt` POST request
+
+Vendor Entity ID = 2278
+Location Id = 1
+Currency Id = 3
+Storage Location Id = 198
+Storage Unit Id = 170
+Item Id = 8049
+ReceiveUOMId = 79
+
+We can provide an arbitrary `lotNo` to the lot object in the `lots` array. It doesn't necessarily need to be existing. The system will auto-create the lot number if it doesn't exists.
+
+In this example, our `receipt` POST request created a new IR: `IR-2785`.
+
+POST request with JSON payload:
 ```http
 POST {{url}}/receipt
 Content-Type: application/json
@@ -363,15 +293,15 @@ Authorization: Bearer {{access_token}}
       "items": [
         {
           "itemId": 8049,
-          "receiveQty": 150,
-          "receiveUOMId": 4,
-		  "grossQty": 150,
-		  "storageLocationId": 200,
-		  "storageUnitId": 176,
+		  "cost": 1.5,
+          "receiveQty": 120.00,
+		  "receiveUOMId": 79,
+		  "storageLocationId": 198,
+		  "storageUnitId": 170,
 		  "lots": [
 			{
-				"lotNo": "LOT-001",
-				"quantity": 120.00
+				"lotNo": "LOT-ARABICA-001",
+				"quantity": 60.00
 			}
 		  ]
         }
@@ -380,3 +310,18 @@ Authorization: Bearer {{access_token}}
   ]
 }
 ```
+Response:
+```json
+{
+  "createdRecords": [
+    {
+      "receiptId": 3388,
+      "receiptNo": "IR-2785",
+      "total": 180.000000
+    }
+  ],
+  "totalRecordsCreated": 1
+}
+```
+
+![alt text](image.png)
